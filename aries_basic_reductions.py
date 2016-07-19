@@ -48,7 +48,7 @@ for infile in infiles:
     if args.cray:
        ccd = ccdproc.cosmicray_lacosmic(ccd, sigclip=4.5, sigfrac=0.3,
                    objlim=5.0, gain=1.0, readnoise=6.5,
-                   satlevel=65536.0, pssl=0.0, niter=4,
+                   satlevel=4096.0, pssl=0.0, niter=4,
                    sepmed=True, cleantype='meanmask', fsmode='median',
                    psfmodel='gauss', psffwhm=2.5, psfsize=7,
                    psfk=None, psfbeta=4.765, verbose=False)
