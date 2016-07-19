@@ -33,11 +33,15 @@ else:
 if args.flat: 
    raise Exception('Flat fielding is not currently implemented')
 if args.dark: 
-   raise Exception('Dark correction is not currently implemented')
+   mdark = CCDData.read(args.dark, unit = u.adu)
+else:
+   mdark = None
 
 for infile in infiles:
     ccd = CCDData.read(infile, unit = u.adu)
-    ccd = ccdproc.ccd_process(ccd, oscan='[1117:1181, 1:330]', oscan_median=True, 
+    if mdark != None:
+       ccd = ccdproc.subtract_dark(ccd, mdark, exposure_time = 'EXPTIME', exposure_unit = u.second)
+    ccd = ccdproc.ccd_process(ccd, oscan='[1121:1181, 1:330]', oscan_median=True, 
                               trim='[17:1116,1:330]', master_bias=mbias,
                               error=True, gain=1.0 * u.electron/u.adu, 
                               readnoise=5.0 * u.electron)
