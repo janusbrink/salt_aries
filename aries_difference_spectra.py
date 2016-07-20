@@ -1,16 +1,7 @@
 import sys
 import os
-import numpy as np
   
-from astropy.io import fits
-from astropy import units as u
-
-import ccdproc 
-from ccdproc import CCDData
-
 import argparse
-import pylab as pl
-
 from aries_sdiff import sdiff
 
 parser = argparse.ArgumentParser(description='Create a 1-D difference spectrum')
