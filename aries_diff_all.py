@@ -1,7 +1,7 @@
 import sys
 import os
 import numpy as np
-  
+from aries_sdiff import sdiff  
 
 import argparse
 
@@ -20,5 +20,5 @@ inarr = np.array(infiles)
 inarr = inarr.reshape(-1,2)
 
 for fileset in inarr:
-   print '%s %s' % (fileset[0], fileset[1])
-# add processing code here   
+   print '[%s %s]' % (fileset[0], fileset[1])
+   sdiff(fileset[0], fileset[1])
