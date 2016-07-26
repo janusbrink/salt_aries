@@ -1,2 +1,0 @@
-#!/bin/bash
-python ~/aries/salt_aries/aries_difference_spectra.py --yc 120 --dy 30 --wc 5781.35 --dw -0.7039 "$@"

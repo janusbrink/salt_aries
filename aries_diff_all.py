@@ -41,6 +41,8 @@ wcaldict = {
 parser = argparse.ArgumentParser(description='Process Aries engineering observationss')
 parser.add_argument('infile', nargs='*', help='File or files to be processed')
 parser.add_argument('--plot', help='Plot graphs', action = "store_true")
+parser.add_argument('--dryrun', help='Do not write output files', action = "store_true")
+parser.add_argument('--xsum', help='Spatial binning size', type = int, default = 50)
 args = parser.parse_args()
 
 infiles = args.infile
@@ -58,5 +60,7 @@ for fil, cfg in zip(flist, cfglist):
    reffile = fil[cfg.index('out')]
    cmpfile = fil[cfg.index('in')]
    wcal = wcaldict[cfg[2]]
+   if args.dryrun:
+      fname = None
    print '\n**%s, %s >> %s' % (reffile, cmpfile, fname)
-   sdiff(reffile, cmpfile, wc = wcal[0], dw = wcal[1], noplot = args.plot == False, xsum = 50, save = fname)
+   sdiff(reffile, cmpfile, headertxt = cfg[2], wc = wcal[0], dw = wcal[1], noplot = args.plot == False, xsum = args.xsum, save = fname)

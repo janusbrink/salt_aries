@@ -1,0 +1,3 @@
+#!/bin/bash
+python ~/aries/salt_aries/aries_diff_all.py "$@"
+cat throughput* > combined.txt
