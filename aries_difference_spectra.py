@@ -1,6 +1,3 @@
-import sys
-import os
-  
 import argparse
 from aries_sdiff import sdiff
 
@@ -18,7 +15,7 @@ parser.add_argument('--save', help='Save to file', type=str, default=None)
 parser.add_argument('--noplot', help='Supress plotting', action = "store_true")
 args = parser.parse_args()
 
-sdiff(args.afile, args.bfile, yc = args.yc, dy = args.dy,
-   bg1 = args.bg1, bg2 = args.bg2,
-   wc = args.wc, dw = args.dw,
-   xsum = args.xsum, save = args.save, noplot = args.noplot)
+sdiff(args.afile, args.bfile, yc=args.yc, dy=args.dy,
+   bg1=args.bg1, bg2=args.bg2,
+   wc=args.wc, dw=args.dw,
+   xsum=args.xsum, save=args.save, plot=not args.noplot)
