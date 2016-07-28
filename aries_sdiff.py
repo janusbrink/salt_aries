@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import numpy as np
+import scipy.stats as st
 
 from ccdproc import CCDData
 import pylab as pl
@@ -23,19 +24,39 @@ def sdiff(
 
     accd = CCDData.read(afile)
     bccd = CCDData.read(bfile)
-
+    
     y1 = yc - dy
     y2 = yc + dy
     bg1 = bg1
     bg2 = bg2
     xbin = xsum
 
+    # extract signal
     aspec = (accd.data[y1:y2,:] - np.median(accd.data[bg1:bg2,:], axis=0)).sum(axis=0) 
     bspec = (bccd.data[y1:y2,:] - np.median(bccd.data[bg1:bg2,:], axis=0)).sum(axis=0)
 
-    aspec = aspec.reshape(-1,xbin).mean(axis=1)
-    bspec = bspec.reshape(-1,xbin).mean(axis=1)
+    # apply spectral binning
+    abin = aspec.reshape(-1,xbin)
+    bbin = bspec.reshape(-1,xbin)
+
+    # estimate variance
+    # sigma-clip data in each bin for variance calc
+    #v = np.apply_along_axis(st.sigmaclip, 1, abin, low=3.0, high=3.0)
+    #avar = np.array([np.var(x) for x in v[:,0]])
+    #v = np.apply_along_axis(st.sigmaclip, 1, bbin, low=3.0, high=3.0)
+    #bvar = np.array([np.var(x) for x in v[:,0]])
+
+    aspec = abin.mean(axis=1)
+    bspec = bbin.mean(axis=1)
     rspec = bspec/aspec - 1.0
+
+    # extract variance
+    accdv = np.nan_to_num(accd.uncertainty.array)
+    bccdv = np.nan_to_num(bccd.uncertainty.array)
+    avar = accdv[y1:y2,:].sum(axis=0)
+    bvar = bccdv[y1:y2,:].sum(axis=0)
+    avar = avar.reshape(-1,xbin).mean(axis=1)
+    bvar = bvar.reshape(-1,xbin).mean(axis=1)
 
     xarr = np.arange(len(aspec))
     warr = (wc + xbin/2) + dw*xbin*xarr
@@ -43,9 +64,10 @@ def sdiff(
     print 'ave = %f %%' % (rspec.mean()*100.0)
     print 'stdev = %f %%' % (rspec.std()*100.0)
     print 'range = %f %%' % ((rspec.max() - rspec.min())*100.0)
+    print 'S/N = %f / %f = %f' % (aspec.mean(), avar.mean(), aspec.mean()/avar.mean())
 
     if save:
-        oarr = np.array([warr, aspec, bspec]).T
+        oarr = np.array([warr, aspec, bspec, avar, bvar]).T
         oarr = oarr[oarr[:,0].argsort()]
         hdrtxt = "" # "\n%s\t%s\t%s\nwavelength [A]\trefspec [counts]\tcompspec [counts]\n" % (headertxt, afile, bfile)
         np.savetxt(save, oarr, fmt="%f", delimiter="\t", header=hdrtxt)

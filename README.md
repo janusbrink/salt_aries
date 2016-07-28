@@ -16,10 +16,11 @@ The following scripts require these packages to be installed in order to run.  T
 + pyqt
 
 
-At this time, the development versions of these two packages need to be installed
+At this time, the development versions of this package needs to be installed (required for the wavelength calibration tool only)
+
 + [specreduce](https://github.com/crawfordsm/specreduce.git)
 
-The specreduce does depend on [PyQt4](https://riverbankcomputing.com/software/pyqt/intro) package. 
+The specreduce package does depend on [PyQt4](https://riverbankcomputing.com/software/pyqt/intro) package. 
 
 Suggested method for installing most of the necessary packages via anaconda
 
@@ -31,21 +32,26 @@ Suggested method for installing most of the necessary packages via anaconda
     cd specreduce
     python setup.py develop
     cd 
-    git clone https://github.com/crawfordsm/salt_aries
+    git clone https://github.com/janusbrink/salt_aries
 
 
 ## Instructions
 
 To perform basic data reductions, follow these steps:
 
-### Run the basic reductions on the data.   
+### Run the basic image reductions on the data.   
 
-Pass the name of the file to `aries_basic_reductions.py` to reduce each file.   There are in addition several optional flags that can be passed to remove a bias, for example. 
+Pass the names of the files to the `aprep` script to reduce each file.   There are in addition several optional flags that can be passed to remove a bias frame, dark frame, etc. Output files have a 'p' prefix.
 
-    python aries_basic_reductions.py [files to be reduced] 
+    aprep [files to be reduced] [--d dark_file] [--b bias file]
 
 ### Create wave maps for each of the arc frames
     python aries_measure_arc.py [arc file]
 
-### Produced difference spectra
-    python aries_difference_spectra.py [reference file] [comparison file] --yc [y-center] --dy [radius]
+### Produce difference spectra
+    adiff [ref_file] [test_file] 
+
+### Reduce all data in folder
+    arundiff [list of files]
+
+arundiff calls `aries_diff_all.py` that contains the test setup of files in the folder as well as the linear wavelength calibration data.
