@@ -4,6 +4,13 @@ import argparse
 
 # test configuration
 #           ref    cmp   wavelength [A]
+#cfglist = (
+#    ('out', 'in', 5500),
+#    ('out', 'in', 5500),
+#    ('out', 'in', 5500),
+#    ('out', 'in', 5500),
+#    ('out', 'in', 5500),
+#    )
 cfglist = (
     ('out', 'in', 3500),
     ('out', 'in', 4000),
@@ -53,8 +60,9 @@ flist = np.array(infiles)
 flist = flist.reshape(-1, 2)
 
 # iterate over file pairs, obtaining cfg and wcal from tables above
+i = 0
 for fil, cfg in zip(flist, cfglist):
-    fname = 'throughput_%d.txt' % cfg[2]
+    fname = 'throughput%02d_%d.txt' % (i, cfg[2])
     reffile = fil[cfg.index('out')]
     cmpfile = fil[cfg.index('in')]
     wcal = wcaldict[cfg[2]]
@@ -62,3 +70,4 @@ for fil, cfg in zip(flist, cfglist):
         fname = None
     print '\n**%s, %s >> %s' % (reffile, cmpfile, fname)
     sdiff(reffile, cmpfile, headertxt=cfg[2], wc=wcal[0], dw=wcal[1], plot=args.plot, xsum=args.xsum, save=fname)
+    i = i + 1
