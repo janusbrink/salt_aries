@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 
 from ccdproc import CCDData
-from pyhrs import red_process
+#from pyhrs import red_process
 
 import specutils
 from astropy import units as u
@@ -40,7 +40,7 @@ arc_ref=args.arc_ref
 slines, sfluxes = np.loadtxt(arc_ref, usecols=(0,1), unpack=True)
 
 function='poly'
-order=3
+order=1
 rstep=1
 nrows=1
 mdiff=20
