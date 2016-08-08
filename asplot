@@ -1,0 +1,2 @@
+#!/bin/bash
+python ~/aries/salt_aries/aries_splot.py "$@"

@@ -69,7 +69,7 @@ def smooth(x,window_len=11,window='hanning'):
 
 def splot(
         infile,
-        yc=120,
+        yc=107,
         dy=30,
         bg1=200,
         bg2=315,
@@ -79,6 +79,7 @@ def splot(
         xsum=1,
         floor=1.0,
         save=False,
+        noplot=False
         ):
 
     print infile
@@ -131,17 +132,18 @@ def splot(
         hdrtxt = "" # "wavelength [A]\trefspec [counts]\n"
         np.savetxt(save, oarr, fmt="%10e", delimiter="\t", header=hdrtxt)
 
-    pl.figure()
-    pl.subplot(111)
-    pl.plot(warr, pspec)
-    pl.ylabel('Counts', size='x-large')
-    pl.xlabel('Wavelength', size='x-large')
-    pl.show()
+    if not noplot:
+        pl.figure()
+        pl.subplot(111)
+        pl.plot(warr, pspec)
+        pl.ylabel('Counts', size='x-large')
+        pl.xlabel('Wavelength', size='x-large')
+        pl.show()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process Aries engineering observationss')
     parser.add_argument('infile', nargs='*', help='File or files to be processed')
-    parser.add_argument('--yc', help='Central row of object', type=int, default=120)
+    parser.add_argument('--yc', help='Central row of object', type=int, default=107)
     parser.add_argument('--dy', help='Half width of object', type=int, default=30)
     parser.add_argument('--bg1', help='background region start', type=int, default=200)
     parser.add_argument('--bg2', help='background region end', type=int, default=315)
@@ -151,7 +153,14 @@ if __name__ == '__main__':
     parser.add_argument('--xsum', help='spectral smooth box size', type=int, default=1)
     parser.add_argument('--floor', help='Noise cut-off ratio', type=float, default=1.0)
     parser.add_argument('--save', help='Save to file', type=str, default=None)
+    parser.add_argument('--noplot', help='Suppress plotting', action="store_true")
     args = parser.parse_args()
 
-    for file in args.infile:
-       splot(file, args.yc, args.dy, args.bg1, args.bg2, args.wref, args.wc, args.dw, args.xsum, args.floor, args.save) 
+    fnum = 1
+    for fil in args.infile:
+       if args.save:
+           fname = args.save + "_%03d.txt" % fnum 
+       else:
+           fname = None
+       splot(fil, args.yc, args.dy, args.bg1, args.bg2, args.wref, args.wc, args.dw, args.xsum, args.floor, fname, args.noplot) 
+       fnum = fnum + 1

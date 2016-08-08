@@ -9,7 +9,7 @@ import pylab as pl
 def sdiff(
         afile,
         bfile,
-        yc=120,
+        yc=107,
         dy=30,
         bg1=200,
         bg2=315,

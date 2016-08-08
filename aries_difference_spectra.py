@@ -4,7 +4,7 @@ from aries_sdiff import sdiff
 parser = argparse.ArgumentParser(description='Create a 1-D difference spectrum')
 parser.add_argument('afile', help='Reference file for spectra')
 parser.add_argument('bfile', help='File to be compared')
-parser.add_argument('--yc', help='Central row of object', type=int, default=120)
+parser.add_argument('--yc', help='Central row of object', type=int, default=107)
 parser.add_argument('--dy', help='Half width of object', type=int, default=30)
 parser.add_argument('--bg1', help='background region start', type=int, default=200)
 parser.add_argument('--bg2', help='background region end', type=int, default=315)
