@@ -8,7 +8,8 @@ import scipy.stats as st
 from ccdproc import CCDData
 import pylab as pl
 
-from wcal import wcaldict
+from aries_wcal import wcaldict
+from aries_roi import roi
 
 def smooth(x,window_len=11,window='hanning'):
     """smooth the data using a window with requested size.
@@ -69,10 +70,10 @@ def smooth(x,window_len=11,window='hanning'):
 
 def splot(
         infile,
-        yc=107,
-        dy=30,
-        bg1=200,
-        bg2=315,
+        yc=roi['yc'],
+        dy=roi['dy'],
+        bg1=roi['bg1'],
+        bg2=roi['bg2'],
         wref=None,
         wc=5500,
         dw=-0.7,
@@ -85,7 +86,7 @@ def splot(
     print infile
 
     accd = CCDData.read(infile)
-    
+
     y1 = yc - dy
     y2 = yc + dy
     bg1 = bg1
@@ -93,7 +94,7 @@ def splot(
     xbin = xsum
 
     # extract signal
-    aspec = (accd.data[y1:y2,:] - np.median(accd.data[bg1:bg2,:], axis=0)).sum(axis=0) 
+    aspec = (accd.data[y1:y2,:] - np.median(accd.data[bg1:bg2,:], axis=0)).sum(axis=0)
 
     # apply spectral binning
     abin = aspec.reshape(-1,xbin)
@@ -122,7 +123,7 @@ def splot(
     ispec = smooth(ispec, window_len=2*subpix+1)
     cutoff = aspec.mean()*floor
     mask = ispec > cutoff
-    pspec = ispec*mask 
+    pspec = ispec*mask
     peaks = sig.argrelmax(pspec, order = subpix)
     print warr[peaks]
 
@@ -159,8 +160,8 @@ if __name__ == '__main__':
     fnum = 1
     for fil in args.infile:
        if args.save:
-           fname = args.save + "_%03d.txt" % fnum 
+           fname = args.save + "_%03d.txt" % fnum
        else:
            fname = None
-       splot(fil, args.yc, args.dy, args.bg1, args.bg2, args.wref, args.wc, args.dw, args.xsum, args.floor, fname, args.noplot) 
+       splot(fil, args.yc, args.dy, args.bg1, args.bg2, args.wref, args.wc, args.dw, args.xsum, args.floor, fname, args.noplot)
        fnum = fnum + 1

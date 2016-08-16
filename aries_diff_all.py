@@ -1,8 +1,8 @@
 import numpy as np
-from aries_sdiff import sdiff  
+from aries_sdiff import sdiff
 import argparse
 
-from wcal import wcaldict
+from aries_wcal import wcaldict
 
 # test configuration
 #           ref    cmp   wavelength [A]

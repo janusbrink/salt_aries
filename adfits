@@ -1,2 +1,2 @@
 #!/bin/bash
-dfits "$@" | fitsort GRATING WAVE EXPTIME
+dfits "$@" | fitsort  GRATING SLIT WAVE EXPTIME LABEL

@@ -6,13 +6,15 @@ import scipy.stats as st
 from ccdproc import CCDData
 import pylab as pl
 
+from aries_roi import roi
+
 def sdiff(
         afile,
         bfile,
-        yc=107,
-        dy=30,
-        bg1=200,
-        bg2=315,
+        yc=roi['yc'],
+        dy=roi['dy'],
+        bg1=roi['bg1'],
+        bg2=roi['bg2'],
         headertxt='5500',
         wc=5500,
         dw=-0.7,
@@ -24,7 +26,7 @@ def sdiff(
 
     accd = CCDData.read(afile)
     bccd = CCDData.read(bfile)
-    
+
     y1 = yc - dy
     y2 = yc + dy
     bg1 = bg1
@@ -32,7 +34,7 @@ def sdiff(
     xbin = xsum
 
     # extract signal
-    aspec = (accd.data[y1:y2,:] - np.median(accd.data[bg1:bg2,:], axis=0)).sum(axis=0) 
+    aspec = (accd.data[y1:y2,:] - np.median(accd.data[bg1:bg2,:], axis=0)).sum(axis=0)
     bspec = (bccd.data[y1:y2,:] - np.median(bccd.data[bg1:bg2,:], axis=0)).sum(axis=0)
     rspec = bspec/aspec
 
