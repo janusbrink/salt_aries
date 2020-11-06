@@ -29,6 +29,10 @@ Suggested method for installing most of the necessary packages via anaconda
     cd aries 
     git clone https://github.com/janusbrink/salt_aries
 
+NOTE: If plots do not display on Mac - change:
+    ~/.matplotlib/matplotlibrc and add:
+    backend: MacOSX
+
 
 ## Instructions
 
