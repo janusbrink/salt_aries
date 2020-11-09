@@ -23,7 +23,7 @@ The specreduce package does depend on [PyQt4](https://riverbankcomputing.com/sof
 Suggested method for installing most of the necessary packages via anaconda
 
     conda create --name aries -y python=2.7 astropy pyqt matplotlib 
-    source activate aries
+    conda activate aries
     conda install -c astropy ccdproc specutils
     mkdir aries
     cd aries 
