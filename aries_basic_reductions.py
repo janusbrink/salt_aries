@@ -1,10 +1,10 @@
 import sys
 import os
 import numpy as np
-  
+
 from astropy import units as u
 
-import ccdproc 
+import ccdproc
 from ccdproc import CCDData
 
 import argparse
@@ -26,9 +26,9 @@ if args.bias:
 else:
    mbias = None
 
-if args.flat: 
+if args.flat:
    raise Exception('Flat fielding is not currently implemented')
-if args.dark: 
+if args.dark:
    mdark = CCDData.read(args.dark, unit=u.adu)
 else:
    mdark = None
@@ -37,9 +37,8 @@ for infile in infiles:
     ccd = CCDData.read(infile, unit=u.adu)
     if mdark:
         ccd = ccdproc.subtract_dark(ccd, mdark, exposure_time='EXPTIME', exposure_unit=u.second)
-    ccd = ccdproc.ccd_process(ccd, oscan='[1121:1181, 1:330]', oscan_median=True, 
-                              trim='[17:1116,1:330]', master_bias=mbias,
-                              error=True, gain=1.0 * u.electron/u.adu, 
+    ccd = ccdproc.ccd_process(ccd, master_bias=mbias,
+                              error=True, gain=1.0 * u.electron/u.adu,
                               readnoise=5.0 * u.electron)
     if args.cray:
         ccd = ccdproc.cosmicray_lacosmic(ccd, sigclip=4.5, sigfrac=0.3,

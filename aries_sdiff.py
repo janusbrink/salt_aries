@@ -104,7 +104,7 @@ def sdiff(
     #print np.sqrt(rvar)
 
     xarr = np.arange(len(aspec))
-    warr = (wc + xbin/2) + dw*xbin*xarr
+    warr = wc + dw*xbin*xarr
 
     print 'ave = %f %%' % (rspec.mean()*100.0)
     print 'stdev = %f %%' % (rspec.std()*100.0)
@@ -116,7 +116,7 @@ def sdiff(
     if save:
         oarr = np.array([warr, aspec, bspec, rspec, rvar]).T
         oarr = oarr[oarr[:,0].argsort()]
-        hdrtxt = "" # "\n%s\t%s\t%s\nwavelength [A]\trefspec [counts]\tcompspec [counts]\n" % (headertxt, afile, bfile)
+        hdrtxt = "" # "\n%s\t%s\t%s\nwavelength [nm]\trefspec [counts]\tcompspec [counts]\n" % (headertxt, afile, bfile)
         np.savetxt(save, oarr, fmt="%10e", delimiter="\t", header=hdrtxt)
 
     if plot:

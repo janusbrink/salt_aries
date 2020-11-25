@@ -55,7 +55,7 @@ def smooth(x,window_len=11,window='hanning'):
 
 
     if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
-        raise ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
+        raise ValueError, "Window is not one of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
 
 
     s=np.r_[x[window_len-1:0:-1],x,x[-1:-window_len:-1]]
@@ -75,10 +75,10 @@ def splot(
         bg1=roi['bg1'],
         bg2=roi['bg2'],
         wref=None,
-        wc=5500,
-        dw=-0.7,
+        wc=550,
+        dw=-0.07,
         xsum=1,
-        floor=1.0,
+        floor=1.01,
         save=False,
         noplot=False
         ):
@@ -92,6 +92,8 @@ def splot(
     bg1 = bg1
     bg2 = bg2
     xbin = xsum
+
+    print yc, dy, bg1, bg2
 
     # extract signal
     aspec = (accd.data[y1:y2,:] - np.median(accd.data[bg1:bg2,:], axis=0)).sum(axis=0)
@@ -110,7 +112,7 @@ def splot(
         wc = wcaldict[wref][0]
         dw = wcaldict[wref][1]
     xarr = np.arange(len(aspec)*subpix)
-    warr = (wc + xbin/2) + (dw/subpix)*xbin*xarr
+    warr = wc + (dw/subpix)*xbin*xarr
 
     # sub-pixel interpolate data
     i = 0
@@ -128,9 +130,9 @@ def splot(
     print warr[peaks]
 
     if save:
-        oarr = warr[peaks].T
-        oarr = oarr[oarr.argsort()]
-        hdrtxt = "" # "wavelength [A]\trefspec [counts]\n"
+        oarr = np.array([warr[peaks], pspec[peaks]]).T
+        #oarr = oarr[oarr.argsort()]
+        hdrtxt = "" # "wavelength [nm]\trefspec [counts]\n"
         np.savetxt(save, oarr, fmt="%10e", delimiter="\t", header=hdrtxt)
 
     if not noplot:

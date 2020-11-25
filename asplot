@@ -1,2 +1,2 @@
 #!/bin/bash
-python ~/aries/salt_aries/aries_splot.py "$@"
+python ~/Code/python/aries/salt_aries/aries_splot.py --yc 172 --dy 20 --bg1 20 --bg2 60 --dw 0.1 --wc 461.364 --xsum 4 "$@"
