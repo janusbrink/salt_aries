@@ -5,32 +5,21 @@ import argparse
 from aries_wcal import wcaldict
 
 # test configuration
-#           ref    cmp   wavelength [A]
-#cfglist = (
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    ('out', 'in', 5500),
-#    )
+#     ref    cmp   wavelength [nm]
 
 cfglist = (
-    ('out', 'in', 3500),
-    ('out', 'in', 4000),
-    ('out', 'in', 4500),
-    ('out', 'in', 5000),
-    ('out', 'in', 5500),
-    ('out', 'in', 6000),
-    ('out', 'in', 6500),
-    ('out', 'in', 7000),
-    ('out', 'in', 7500),
-    ('out', 'in', 8000),
-    ('out', 'in', 8500),
-    ('out', 'in', 9000)
+    ('out', 'in', 350),
+    ('out', 'in', 400),
+    ('out', 'in', 450),
+    ('out', 'in', 500),
+    ('out', 'in', 550),
+    ('out', 'in', 600),
+    ('out', 'in', 650),
+    ('out', 'in', 700),
+    ('out', 'in', 750),
+    ('out', 'in', 800),
+    ('out', 'in', 850),
+    ('out', 'in', 900)
     )
 
 parser = argparse.ArgumentParser(description='Process Aries engineering observationss')

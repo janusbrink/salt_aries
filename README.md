@@ -52,23 +52,21 @@ The Region of Interest (ROI) for the spectrum and background is defined in aries
 The wavelength calibration is defined in aries_wcal.py:
 
     # wavelength cal table
-    #  wavelength [A], wl at x=0 [A], disp [A/pixel]
+    #  wavelength [nm], wl at x=0 [nm], disp [nm/pixel]
     wcaldict = {
-        3500: (3786.82740000956, -0.7160),
-        4000: (4283.04591640358, -0.7140),
-        4500: (4781.16982674218, -0.7112),
-        5000: (5278.33868815227, -0.7085),
-        5500: (5776.06936014866, -0.7053),
-        6000: (6274.35744728712, -0.7015),
-        6500: (6772.32951675212, -0.6992),
-        7000: (7271.75813080403, -0.6958),
-        7500: (7771.30906597260, -0.6931),
-        8000: (8268.25741607708, -0.6884),
-        8500: (8766.04451394839, -0.6840),
-        9000: (9263.24690748274, -0.6796)
-        }
-
-
+         350: (293.2687, 0.075744),
+         400: (343.3987, 0.075479),
+         450: (393.5357, 0.075196),
+         500: (443.6857, 0.074895),
+         550: (493.8437, 0.074575),
+         600: (544.0107, 0.074238),
+         650: (593.4949, 0.075834),
+         700: (644.3727, 0.073507),
+         750: (694.5677, 0.073112),
+         800: (744.7717, 0.072700),
+         850: (794.9887, 0.072270),
+         900: (845.2147, 0.071817),
+         }
 
 ### Run the basic image reductions on the data.   
 
@@ -76,7 +74,7 @@ Pass the names of the files to the `aprep` script to reduce each file.   There a
 
     aprep [files to be reduced] [--d dark_file] [--b bias file]
     
-Typically background subtraction from a region above the spectrum is sufficient.
+Typically background subtraction from a region next to the spectrum is sufficient.
 
 Example:
 
@@ -91,17 +89,31 @@ To plot the difference spectra of a single data set (a pair of images):
 
 Example:
 
-    adiff pimage001.fit pimage002.fit --wref 3500
+    adiff pimage001.fit pimage002.fit --wref 350
     
 The optional `wref` flag indicates the wavelength calibration configuration entry to use when plotting the data.
 
 ### Reduce all data in folder
     arundiff [list of files]
 
-arundiff calls `aries_diff_all.py` that contains the test setup of files in the folder.
+arundiff calls `aries_diff_all.py` that contains the test setup of files in the folder:
+ cfglist = (
+     ('out', 'in', 350),
+     ('out', 'in', 400),
+     ('out', 'in', 450),
+     ('out', 'in', 500),
+     ('out', 'in', 550),
+     ('out', 'in', 600),
+     ('out', 'in', 650),
+     ('out', 'in', 700),
+     ('out', 'in', 750),
+     ('out', 'in', 800),
+     ('out', 'in', 850),
+     ('out', 'in', 900)
+     )
 
 Example:
 
     arundiff pimage*
     
-Output for each image pair is saved as `throughput_xxxx.txt` and the combined output is available in `combined.txt`.
+Output for each image pair is saved as `throughputnn_xxxx.txt` and the combined output is available in `combined.txt`.
