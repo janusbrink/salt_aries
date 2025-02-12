@@ -47,11 +47,13 @@ jobs:
 
       # - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
 
-      - name: Install edps
+      - name: Setup edps cache
         uses: actions/setup-python@v5
         with:
+          python-version: '3.12'
           cache: 'pip' # caching pip dependencies
-      - run: |
+      - name: Install edps
+        run: |
           # python3 -m venv metispipe
           # . metispipe/bin/activate
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
