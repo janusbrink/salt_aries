@@ -42,7 +42,7 @@ jobs:
             python3-pip python3-full
             python3-jupyter-core python3-jupyter-client python3-notebook
             emacs vim nano
-          version: 1.0
+          version: 1.1
 
       # - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
 
