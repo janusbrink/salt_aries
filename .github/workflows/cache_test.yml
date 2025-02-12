@@ -58,7 +58,7 @@ jobs:
           # python3 -m venv metispipe
           # . metispipe/bin/activate
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
-          ./toolbox/install_edps.sh
+          pip install -r requirements.txt
 
       - name: Create edps config
         run:
