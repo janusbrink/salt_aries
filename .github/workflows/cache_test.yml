@@ -43,6 +43,7 @@ jobs:
             python3-jupyter-core python3-jupyter-client python3-notebook
             emacs vim nano
           version: 1.2
+          execute_install_scripts: true
 
       # - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
 
@@ -72,9 +73,9 @@ jobs:
           export SOF_DIR="$(pwd)/METIS_Pipeline_Test_Data/small202402/sofFiles/"
           export PYESOREX_OUTPUT_DIR="$SOF_DATA"
           # export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/blas:$LD_LIBRARY_PATH
-          dpkg -L libblas3
-          dpkg -L python3-numpy
-          du -h -d 1 /usr/lib
-          du -h -d 1 /var/lib
-          find /var/lib/dpkg/info/ -name libblas
-          # python -m pytest -s
+          # dpkg -L libblas3
+          # dpkg -L python3-numpy
+          # du -h -d 1 /usr/lib
+          # du -h -d 1 /var/lib
+          # find /var/lib/dpkg/info/ -name libblas
+          python -m pytest -s
