@@ -43,24 +43,24 @@ jobs:
             python3-jupyter-core python3-jupyter-client python3-notebook
             emacs vim nano
           version: 1.3
-          execute_install_scripts: true
+          # execute_install_scripts: true
 
       # - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
 
-      #   name: Install dependencies
+      - name: Install edps
+      - uses: actions/setup-python@v5
+        with:
+          cache: 'pip' # caching pip dependencies
+      - run: |
+          # python3 -m venv metispipe
+          # . metispipe/bin/activate
+          export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
+          ./toolbox/install_edps.sh
+          ./toolbox/create_config.sh
+
+      # - name: Fetch test data
       #   run: |
-      #     sudo ./toolbox/install_dependencies_ubuntu.sh
-      #     # python3 -m venv metispipe
-      #     # . metispipe/bin/activate
-      #     export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
-      #     ./toolbox/install_edps.sh
-      #     ./toolbox/create_config.sh
-
-      - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
-
-        name: Fetch test data
-        run: |
-          git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
+      #     git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
 
       - name: Run pytest tests
         run: |
@@ -79,4 +79,5 @@ jobs:
           # du -h -d 1 /usr/lib
           # du -h -d 1 /var/lib
           # find /var/lib/dpkg/info/ -name libblas
-          python -m pytest -s
+          # python -m pytest -s
+          edps --help
