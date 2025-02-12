@@ -45,19 +45,23 @@ jobs:
           version: 1.3
           # execute_install_scripts: true
 
-      # - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
-
       - name: Setup edps cache
+        id: cache-pip
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: 'pip' # caching pip dependencies
-      - name: Install edps
+
+      - if: ${{ steps.cache-pip.outputs.cache-hit != 'true' }}      
+        name: Install edps
         run: |
           # python3 -m venv metispipe
           # . metispipe/bin/activate
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
           ./toolbox/install_edps.sh
+
+      - name: Create edps config
+        run:
           ./toolbox/create_config.sh
 
       # - name: Fetch test data
