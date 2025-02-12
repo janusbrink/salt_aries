@@ -48,7 +48,7 @@ jobs:
       # - if: ${{ steps.cache-dep.outputs.cache-hit != 'true' }}
 
       - name: Install edps
-      - uses: actions/setup-python@v5
+        uses: actions/setup-python@v5
         with:
           cache: 'pip' # caching pip dependencies
       - run: |
