@@ -36,6 +36,7 @@ jobs:
             wcslib-dev wcslib-tools
             libcpl-dev
             python3-astropy python3-matplotlib python3-numpy
+            libblas3
             perl cmake
             graphviz meld
             python3-pip python3-full
