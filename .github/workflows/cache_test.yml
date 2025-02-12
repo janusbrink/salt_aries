@@ -71,5 +71,5 @@ jobs:
           export SOF_DIR="$(pwd)/METIS_Pipeline_Test_Data/small202402/sofFiles/"
           export PYESOREX_OUTPUT_DIR="$SOF_DATA"
           export LD_LIBRARY_PATH=.apt/usr/lib/x86_64-linux-gnu/blas:$LD_LIBRARY_PATH
-          find ./apt
+          find ./
           python -m pytest -s
