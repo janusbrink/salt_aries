@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run:
+  install:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -60,13 +60,18 @@ jobs:
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
           pip install -r requirements.txt
 
-      - name: Create edps config
-        run:
-          ./toolbox/create_config.sh
 
       # - name: Fetch test data
       #   run: |
       #     git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
+
+  run-tests:
+    runs-on: ubuntu-24.04
+    needs: install
+    steps:
+      - name: Create edps config
+        run:
+          ./toolbox/create_config.sh
 
       - name: Run pytest tests
         run: |
