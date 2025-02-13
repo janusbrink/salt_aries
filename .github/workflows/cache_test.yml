@@ -39,34 +39,35 @@ jobs:
             perl cmake
             graphviz meld
             emacs vim nano
-            # python3-astropy python3-matplotlib python3-numpy
-            # python3-pip python3-full
-            # python3-jupyter-core python3-jupyter-client python3-notebook
+            python3-astropy python3-matplotlib python3-numpy
+            python3-pip python3-full
+            python3-jupyter-core python3-jupyter-client python3-notebook
           version: 1.3
           # execute_install_scripts: true
 
-      - name: Setup edps cache
-        id: cache-pip
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: 'pip' # caching pip dependencies
+      # - name: Setup edps cache
+      #   id: cache-pip
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.12'
+      #     cache: 'pip' # caching pip dependencies
 
-      - name: Install edps with cache
-        run: |
-          export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
-          pip install -r requirements.txt
+      # - name: Install edps with cache
+      #   run: |
+      #     export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
+      #     pip install -r requirements.txt
 
-      - name: Fetch test data
-        run: |
-          git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
+      # - name: Fetch test data
+      #   run: |
+      #     git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
 
-      - name: Setup edps config
-        run: ./toolbox/create_config.sh
+      # - name: Setup edps config
+      #   run: ./toolbox/create_config.sh
 
       - name: Run pytest tests
         run: |
           set +x
+          pip list --format=freeze
           # . metispipe/bin/activate
           export PYESOREX_PLUGIN_DIR="$(pwd)/metisp/pyrecipes/"
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
@@ -82,4 +83,4 @@ jobs:
           # du -h -d 1 /var/lib
           # find /var/lib/dpkg/info/ -name libblas
           python -m pytest -s
-          edps --help
+          # edps --help
