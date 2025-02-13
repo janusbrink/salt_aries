@@ -58,7 +58,7 @@ jobs:
       - name: Install edps with cache
         run: |
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
-          pip install -r requirements.txt
+          pip install -r ./toolbox/requirements.txt
 
       - name: Fetch test data
         run: |
