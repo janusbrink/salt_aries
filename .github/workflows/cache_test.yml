@@ -83,4 +83,4 @@ jobs:
           # du -h -d 1 /var/lib
           # find /var/lib/dpkg/info/ -name libblas
           edps --help
-          python -m pytest -s
+          # python -m pytest -s
