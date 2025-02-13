@@ -1,0 +1,89 @@
+name: Run tests with cached install
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  # schedule:
+  #   # Run every day at 2:00 UTC
+  #   - cron: "0 2 * * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install dependencies with cache
+        id: cache-dep
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        env:
+          cache-name: cache-dependencies
+        with:
+          packages: wget gcc  automake autogen libtool gsl-bin libgsl-dev libfftw3-bin libfftw3-dev fftw-dev
+            curl bzip2 less subversion git cppcheck lcov valgrind
+            zlib1g zlib1g-dev
+            liberfa1 liberfa-dev
+            libcurl4-openssl-dev libcurl4
+            tmux ripgrep file
+            libcfitsio-bin libcfitsio-dev
+            wcslib-dev wcslib-tools
+            libcpl-dev
+            libblas3
+            perl cmake
+            graphviz meld
+            emacs vim nano
+            # python3-astropy python3-matplotlib python3-numpy
+            # python3-pip python3-full
+            # python3-jupyter-core python3-jupyter-client python3-notebook
+          version: 1.3
+          # execute_install_scripts: true
+
+      # - name: Check python version
+      #   run: python --version
+
+      - name: Setup edps cache
+        id: cache-pip
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.3'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install edps with cache
+        run: |
+          export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
+          pip install -r requirements.txt
+
+      - name: Fetch test data
+        run: |
+          git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
+
+      - name: Setup edps config
+        run: ./toolbox/create_config.sh
+
+      - name: Run pytest tests
+        run: |
+          set +x
+          # pip list --format=freeze
+          # . metispipe/bin/activate
+          export PYESOREX_PLUGIN_DIR="$(pwd)/metisp/pyrecipes/"
+          export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
+          export PYTHONPATH="$(pwd)/metisp/pymetis/src/"
+          export SOF_DATA="$(pwd)/METIS_Pipeline_Test_Data/small202402/outputSmall/"
+          export SOF_DIR="$(pwd)/METIS_Pipeline_Test_Data/small202402/sofFiles/"
+          export PYESOREX_OUTPUT_DIR="$SOF_DATA"
+          export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/blas:/usr/lib/x86_64-linux-gnu/lapack:$LD_LIBRARY_PATH
+          # dpkg -L liblapack3
+          # dpkg -L libblas3
+          # dpkg -L python3-numpy
+          # du -h -d 1 /usr/lib
+          # du -h -d 1 /var/lib
+          # find /var/lib/dpkg/info/ -name libblas
+          edps --help
+          # python -m pytest -s
