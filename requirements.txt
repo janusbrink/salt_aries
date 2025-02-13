@@ -1,4 +1,4 @@
--i https://ftp.eso.org/pub/dfs/pipelines/libraries
+--extra-index-url https://ftp.eso.org/pub/dfs/pipelines/libraries
 adari_core==0.6.0
 edps==1.4.6
 pycpl==1.0.0
