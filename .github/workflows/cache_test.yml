@@ -1,4 +1,4 @@
-name: Setup edps cache
+name: Run tests with cached install
 
 on:
   # push:
