@@ -35,13 +35,13 @@ jobs:
             libcfitsio-bin libcfitsio-dev
             wcslib-dev wcslib-tools
             libcpl-dev
-            python3-astropy python3-matplotlib python3-numpy
             libblas3
             perl cmake
             graphviz meld
-            python3-pip python3-full
-            python3-jupyter-core python3-jupyter-client python3-notebook
             emacs vim nano
+            # python3-astropy python3-matplotlib python3-numpy
+            # python3-pip python3-full
+            # python3-jupyter-core python3-jupyter-client python3-notebook
           version: 1.3
           # execute_install_scripts: true
 
