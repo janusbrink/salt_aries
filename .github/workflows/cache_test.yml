@@ -15,12 +15,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  install:
+  run:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
-      - name: cache dependencies
+      - name: install dependencies with cache
         id: cache-dep
         uses: awalsh128/cache-apt-pkgs-action@latest
         env:
@@ -52,11 +52,8 @@ jobs:
           python-version: '3.12'
           cache: 'pip' # caching pip dependencies
 
-      # - if: ${{ steps.cache-pip.outputs.cache-hit != 'true' }}      
-        # name: Install edps
-      - run: |
-          # python3 -m venv metispipe
-          # . metispipe/bin/activate
+      - name: Install edps with cache
+        run: |
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
           pip install -r requirements.txt
 
@@ -64,7 +61,7 @@ jobs:
         run: |
           git clone https://github.com/AstarVienna/METIS_Pipeline_Test_Data.git
 
-      - name: Create edps config
+      - name: Setup edps config
         run: ./toolbox/create_config.sh
 
       - name: Run pytest tests
@@ -84,5 +81,5 @@ jobs:
           # du -h -d 1 /usr/lib
           # du -h -d 1 /var/lib
           # find /var/lib/dpkg/info/ -name libblas
-          # python -m pytest -s
+          python -m pytest -s
           edps --help
