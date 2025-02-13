@@ -52,9 +52,9 @@ jobs:
           python-version: '3.12'
           cache: 'pip' # caching pip dependencies
 
-      - if: ${{ steps.cache-pip.outputs.cache-hit != 'true' }}      
-        name: Install edps
-        run: |
+      # - if: ${{ steps.cache-pip.outputs.cache-hit != 'true' }}      
+        # name: Install edps
+      - run: |
           # python3 -m venv metispipe
           # . metispipe/bin/activate
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
