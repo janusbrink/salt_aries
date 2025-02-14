@@ -45,7 +45,7 @@ jobs:
       - name: Install edps with cache
         run: |
           export PYCPL_RECIPE_DIR="$(pwd)/metisp/pyrecipes/"
-          pip install -r ./toolbox/requirements.txt
+          pip install -r ./toolbox/requirements-no-edps.txt
           pip install --extra-index-url https://ftp.eso.org/pub/dfs/pipelines/libraries pycpl pyesorex edps adari_core
 
       - name: Setup edps config
